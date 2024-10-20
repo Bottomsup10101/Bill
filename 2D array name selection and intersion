@@ -1,0 +1,89 @@
+#include <iostream>
+#include<cstring>
+
+const int max_person=100;
+const int max_name_length=100;
+
+void selectionsort(char names[max_person][max_name_length],int n){
+    for(i=0;i<n-1;i++){
+        int min_idx=i;
+        for(int j=i+1;j<n;j++){
+            if(strcmp(names[j],names[min_idx])<0){
+                min_idx=j;
+            }
+        }
+        
+        char temp[max_name_length];
+        strcpy(temp,names[i]);
+        strcpy(names[i],names[min_idx]);
+        strcpy(names[min_idx],temp);
+    }
+}
+
+void insertionsort(char names[max_person][max_name_length],int n){
+    for(i=1;i<n;i++){
+        char ket[max_name_length];
+        strcpy(key,names[i])
+        int j=i-1;
+        
+        while(j>=0&&strcmp(names[j],key)>0){
+            strcpy(name[j+1],names[j]);
+            j--;
+        }
+        strcpy(names[j+1],key);
+        
+    }
+    
+}
+
+void displaynames(char name[max_person][max_name_length],int n){
+        for (int i=0;i<n;i++) {
+        cout<<names[i]<<endl;
+}
+
+int main() {
+    int n;
+    cout<<"Enter The number of persons:";
+    cin>>n;
+    cin.ignore()
+    
+    char names[max_person][max_name_length]
+    
+    cout<<"Enter name:";
+    for(int i=0;i<n;i++){
+        cout<<"Person"<<i+1<<":";
+        cin.getline(names[],max_name_length);
+    }
+    int choice;
+    do {
+        cout << "\nMenu:\n";
+        cout << "1. Sort names using Insertion Sort\n";
+        cout << "2. Sort names using Selection Sort\n";
+        cout << "3. Display names\n";
+        cout << "4. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                insertionSort(names, n);
+                cout << "Names sorted using Insertion Sort.\n";
+                break;
+            case 2:
+                selectionSort(names, n);
+                cout << "Names sorted using Selection Sort.\n";
+                break;
+            case 3:
+                cout << "List of names:\n";
+                displayNames(names, n);
+                break;
+            case 4:
+                cout << "Exiting...\n";
+                break;
+            default:
+                cout << "Invalid choice, please try again.\n";
+        }
+    } while (choice != 4);
+
+    return 0;
+}
