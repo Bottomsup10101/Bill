@@ -1,0 +1,121 @@
+#include<iostream>
+using namespace std;
+struct node{
+	int data;
+	node* link;
+};
+class clinkl
+{
+	node* last;
+	public:
+	clinkl()
+	{
+		last=NULL;	
+	}
+	void create();
+	void display();
+	void addf();
+	void delf();
+	void delr();
+	void del_sp();
+};
+void clinkl::create()
+{
+	int n;
+	node* nn,*temp;
+	cout<<"enter number of node:";
+	cin>>n;
+	for(int i=0;i<n;i++)
+	{
+		nn=new node;
+		if(nn==NULL)
+		{
+			cout<<"memory issue";
+		}
+		cout<<"enter data:";
+		cin>>nn->data;
+		nn->link=NULL;
+		if(i==0)
+		{
+			last=nn;
+			nn->link=nn;
+		}
+		nn->link=last->link;
+		last->link=nn;
+		last=nn;
+	}
+}
+void clinkl::display()
+{
+	node* t;
+	t=last->link;
+	do
+	{
+		cout<<t->data<<"\t";
+		t=t->link;
+	}
+	while(t!=last->link);
+}
+void clinkl::addf()
+{
+	node* temp;
+	temp=new node;
+	cout<<"\nenter data at front:";
+	cin>>temp->data;
+	temp->link=last->link;
+	last->link=temp;
+}
+void clinkl::delf()
+{
+	node *t;
+	cout<<"\ndeleted node linked list is:";
+	t=last->link;
+	last->link=t->link;
+	delete(t);
+}
+void clinkl::delr()
+{
+	cout<<"\ndeleting the last node:";
+	node *t;
+	t=last->link;
+	while(t->link!=last)
+	{
+		t=t->link;
+	}
+	t->link=last->link;
+	delete(last);
+	last=t;
+}
+void clinkl::del_sp()
+{
+	int pos;
+	node *t,*prev;
+	prev=NULL;
+	cout<<"\nenter the position:";
+	cin>>pos;
+	t=last->link;
+	while(--pos)
+	{
+		prev=t;
+		t=t->link;
+	}
+	prev->link=t->link;
+	delete(t);
+	
+}
+int main()
+{
+	clinkl c1;
+	c1.create();
+	c1.display();
+	c1.addf();
+	c1.display();
+	c1.delf();
+	c1.display();
+	c1.delr();
+	c1.display();
+	c1.del_sp();
+	cout<<"\nafter deleting the specified circular link list is:";
+	c1.display();
+	return 0;
+}
