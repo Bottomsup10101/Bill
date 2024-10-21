@@ -1,0 +1,170 @@
+#include <iostream>
+using namespace std;
+
+const int siz = 100;
+
+struct node {
+    int data;
+    node* left;
+    node* right;
+};
+
+class BST {
+    node* root;
+
+public:
+    BST(){root=NULL;}
+    
+    void create_BST();
+    void nr_pre() { nr_pre(root); }
+    void nr_inorder(){nr_inorder(root);}
+    void nr_post(){nr_post(root);}
+    
+private:
+    void nr_pre(node* t);
+    void nr_inorder(node* t);
+    void nr_post(node* t);
+};
+
+class stack {
+    node* a[siz];
+    int top;
+
+public:
+    stack(){top=-1;}
+    
+    bool empty() {
+        return top == -1;
+    }
+
+
+
+    void push(node* t){
+        if(top!=siz-1)
+            a[++top]=t;
+    }
+    node* pop() {
+    if (top != -1) 
+        return a[top--];
+     else 
+        return NULL; 
+}
+
+};
+
+
+
+void BST::nr_pre(node* t) {
+    stack s1;
+    while (t != NULL) {
+        cout << t->data << " ";
+        s1.push(t);
+        t = t->left;
+    }
+    while (!s1.empty()) {
+        t = s1.pop();
+        
+        t = t->right;
+        while (t != NULL) {
+            cout << t->data << " ";
+            s1.push(t);
+            t = t->left;
+        }
+    }
+}
+
+
+void BST::nr_inorder(node* t) {
+    stack s1;
+    while (t != NULL) {
+        
+        s1.push(t);
+        t = t->left;
+    }
+    while (!s1.empty()) {
+        t = s1.pop();
+        cout<<t->data<<" ";
+        t = t->right;
+        while (t != NULL) {
+            s1.push(t);
+            t = t->left;
+        }
+    }
+}
+
+
+void BST::nr_post(node* t) {
+    stack s1, s2;
+    if (t == NULL) return;
+
+    s1.push(t);
+    while (!s1.empty()) {
+        t = s1.pop();
+        s2.push(t);
+        if (t->left != NULL) s1.push(t->left);
+        if (t->right != NULL) s1.push(t->right);
+    }
+    while (!s2.empty()) {
+        t = s2.pop();
+        cout << t->data << " ";
+    }
+}
+
+
+void BST::create_BST() {
+    int n, i;
+    cout << "Enter No. of nodes: ";
+    cin >> n;
+
+    for (i = 0; i < n; i++) {
+        node* nn = new node;
+        if (!nn) {
+            cout << "Memory full" << endl;
+            exit(1); 
+        }
+        
+        cout << "Enter data: ";
+        cin >> nn->data;
+        nn->left = nn->right = NULL;
+
+        if (root == NULL) {
+            root = nn;
+            continue;
+        }
+
+        node* t = root;
+        node* parent = NULL;
+
+        while (t != NULL) {
+            parent = t;
+            if (nn->data < t->data) {
+                t = t->left;
+            } else {
+                t = t->right;
+            }
+        }
+
+        if (nn->data < parent->data) {
+            parent->left = nn;
+        } else {
+            parent->right = nn;
+        }
+    }
+}
+
+
+
+int main() {
+    BST b1;
+    b1.create_BST();
+    cout << "Pre-order Traversal: ";
+    b1.nr_pre();
+    cout << endl;
+    cout << "In-order Traversal: ";
+    b1.nr_inorder();
+    cout << endl;
+    cout << "Post-order Traversal: ";
+    b1.nr_post();
+    cout<<endl;
+    return 0;
+}
