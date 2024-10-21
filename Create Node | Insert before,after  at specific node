@@ -1,0 +1,121 @@
+#include <iostream>
+using namespace std;
+struct Node {
+    char data;
+    Node* next;
+};
+class Stack {
+    Node* top;
+
+public:
+    Stack() {
+        top = nullptr;
+    }
+    void createNodes(int n) {
+        char value;
+        for (int i = 0; i < n; i++) {
+            cout << "Enter character for node " << i + 1 << ": ";
+            cin >> value;
+            push(value);
+        }
+    }
+    void push(char value) {
+        Node* newNode = new Node();
+        newNode->data = value;
+        newNode->next = top;
+        top = newNode;
+    }
+    void insertAfter(char afterValue, char newValue) {
+        Node* current = top;
+        while (current != nullptr && current->data != afterValue) {
+            current = current->next;
+        }
+        if (current == nullptr) {
+            cout << "Node with value " << afterValue << " not found." << endl;
+            return;
+        }
+        Node* newNode = new Node();
+        newNode->data = newValue;
+        newNode->next = current->next;
+        current->next = newNode;
+    }
+    void insertBefore(char beforeValue, char newValue) {
+        if (top == nullptr) {
+            cout << "Stack is empty." << endl;
+            return;
+        }
+        if (top->data == beforeValue) {
+            push(newValue);  
+            return;
+        }
+        Node* current = top;
+        Node* prev = nullptr;
+        while (current != nullptr && current->data != beforeValue) {
+            prev = current;
+            current = current->next;
+        }
+        if (current == nullptr) {
+            cout << "Node with value " << beforeValue << " not found." << endl;
+            return;
+        }
+        Node* newNode = new Node();
+        newNode->data = newValue;
+        newNode->next = current;
+        prev->next = newNode;
+    }
+    void display() {
+        Node* current = top;
+        if (current == nullptr) {
+            cout << "Stack is empty." << endl;
+            return;
+        }
+        cout << "Stack elements: ";
+        while (current != nullptr) {
+            cout << current->data << " ";
+            current = current->next;
+        }
+        cout << endl;
+    }
+};
+int main() {
+    Stack stack;
+    int n;
+    char afterValue, beforeValue, newValue;
+    int choice;
+    cout << "Enter the number of nodes to create: ";
+    cin >> n;
+    stack.createNodes(n);
+    while (true) {
+        cout << "\nMenu:" << endl;
+        cout << "1) Insert after a specific node" << endl;
+        cout << "2) Insert before a specific node" << endl;
+        cout << "3) Display stack" << endl;
+        cout << "4) Exit" << endl;
+        cout << "Enter your choice: ";
+        cin >> choice;
+        switch (choice) {
+            case 1:
+                cout << "Enter the value after which to insert: ";
+                cin >> afterValue;
+                cout << "Enter new value to insert: ";
+                cin >> newValue;
+                stack.insertAfter(afterValue, newValue);
+                break;
+            case 2:
+                cout << "Enter the value before which to insert: ";
+                cin >> beforeValue;
+                cout << "Enter new value to insert: ";
+                cin >> newValue;
+                stack.insertBefore(beforeValue, newValue);
+                break;
+            case 3:
+                stack.display();
+                break;
+            case 4:
+                exit(0);
+            default:
+                cout << "Invalid choice! Try again." << endl;
+        }
+    }
+    return 0;
+}
