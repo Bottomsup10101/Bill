@@ -22,7 +22,7 @@ void selectionsort(char names[max_person][max_name_length],int n){
 
 void insertionsort(char names[max_person][max_name_length],int n){
     for(i=1;i<n;i++){
-        char ket[max_name_length];
+        char key[max_name_length];
         strcpy(key,names[i])
         int j=i-1;
         
