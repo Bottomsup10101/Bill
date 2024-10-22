@@ -1,0 +1,74 @@
+#include<iostream>
+using namespace std;
+const int size = 80;
+class Stack {
+    double a[size];
+    int top;
+  public:
+    Stack() { top = -1; }
+
+void push(double x);
+double pop();
+void display();
+  int empty() { return top == -1; }
+};
+
+
+void Stack::push(double x) {
+  if (top == size - 1) {
+  cout << "Stack overflow\n";
+  return;
+  }
+  a[++top] = x;
+}
+
+double Stack::pop() {
+  if (top == -1) {
+    cout << "It's an invalid postfix expression\n";
+  exit(0);
+  }
+  return a[top--];
+}
+
+void Stack::display() {
+    for (int i = top; i >= 0; i--){
+    cout << a[i] << "\t";
+    }
+  int isoperand(char ch) {
+  return (ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z') || (ch >= '0' && ch <= '9');
+}
+
+
+int main() {
+  Stack s1;
+  char postexp[80], symb;
+  double result, op1, op2, x, temp;
+  cout << "Enter a valid postfix expression\n";
+  cin >> postexp;
+  for (int i = 0; postexp[i] != '\0'; i++) {
+    symb = postexp[i];
+    if (isoperand(symb)) {
+    if (symb >= 'A' && symb <= 'Z' || symb >= 'a' && symb <= 'z') {
+    cout << "Enter value for " << symb << " : ";
+    cin >> x;
+    s1.push(x);
+    } else {
+      s1.push(symb - '0');
+      }
+      } else {
+      op2 = s1.pop();
+      op1 = s1.pop();
+      switch (symb) {
+      case '+': temp = op1 + op2; break;
+      case '-': temp = op1 - op2; break;
+      case '*': temp = op1 * op2; break;
+      case '/': temp = op1 / op2; break;
+      case '%': temp = static_cast<int>(op1) % static_cast<int>(op2); break;
+        }
+        s1.push(temp);
+        }
+      }
+result = s1.pop();
+cout << "The final result is " << result << endl;
+return 0;
+}
