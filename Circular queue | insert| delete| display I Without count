@@ -1,74 +1,118 @@
 #include<iostream>
 using namespace std;
-const int siz=100;
-class CQueue{
-    int a[siz];
-    int r,f,count;
-    public:
-    CQueue(){r=-1;f=0;count=0;}
-    void insert(int x);
-    int del();
-    void Disp();
+
+const int size=10;
+class cqueue{
+	int size=5;
+	int arr[size];
+	int f,r;
+	public:
+		cqueue()
+		{
+			r=-1;
+			f=-1;
+		}
+		void push(int x);
+		void pop();
+		void display();
+		
 };
-void CQueue::insert(int x){
-    if(count==siz){
+void cqueue::push(int x)
+{
+	
+	if ((r+ 1) % size == f) 
+	{ 
+		cout << "Queue overflow " << x<< endl; 
+		return; 
+	} 
+	if (f == -1) 
+	{ 
+		f = 0; 
+	} 
+	r= (r + 1) % size; 
+	arr[r] = x; 
+	cout <<x<< " inserted into the queue." << endl;
+	}
+	
+	
+void cqueue::pop()
+{
+	if (f == -1) 
+	{ 
+		cout << "Queue is empty. Cannot delete." << endl; 
+		return; 
+	} 
+	int deletedValue = arr[f]; 
+	cout << deletedValue << " deleted from the queue." << endl; 
+	if (f == r)
+	{ 
+		f=-1; 
+		r=-1; 
+	} 
+	else 
+	{ 
+		f= (f + 1) % size; 
+	} 
+}
+void cqueue::display() 
+{ 
+	if (f == -1) 
+	{ 
+	cout << "Queue is empty." << endl; 
+	return; 
+	} 
+	cout << "Queue elements: "; 
+	int i = f; 
+	while (true) 
+	{ 
+		cout << arr[i] << " "; 
+		if (i == r) break; 
+		i = (i + 1) % size; 
+	} 
+}
+int main()
+{
+	int t,num,num1,choice;
+	cqueue q1;
+	
+	do { 
+cout << "\nMenu:\n"; 
+cout << "1. Insert\n"; 
+cout << "2. Delete\n"; 
+cout << "3. Display\n"; 
+cout << "4. Exit\n"; 
+cout << "Enter your choice: "; 
+cin >> choice; 
+switch (choice)
+	{ 
+	case 1: 
+		cout<<"how many element need's to be inserted:";
+		cin>>num;
+		for(int i=0;i<num;i++)
+		{
+			cout<<"enter data:";
+			cin>>t;
+			q1.push(t);
+		}
+		break; 
+	case 2: 
+	cout<<"how many elements in queue to be popped:";
+		cin>>num1;
+		for(int i=0;i<num1;i++)
+		{
+			q1.pop();
+		}
+		break;
+	case 3: 
+		q1.display(); 
+		break; 
+	case 4: 
+		cout << "Exiting the program.\n"; 
+		break; 
+		default: 
+		cout << "Invalid choice. Please try again.\n"; 
+	} 
+} while (choice != 4); 
 
-        cout<<"Queue is Full!";
-        return;
-    }
-    
-        r = (r + 1) % siz;
-        a[r]=x;
-        count++;
-    
+	return 0;
 }
-int CQueue::del(){
-    if(count==0){
-        cout<<"Queue is Empty";
-        return -1;
-    }
-    
-        int y=a[f];
-        f = (f + 1) % siz; 
-        count--;
-        return(y);
-    
-}
-void CQueue::Disp(){
-    for(int i=0;i<count;i++){
-        cout<<a[i]<<" ";
-    }
-    cout<<endl;
-}
-int main(){
-    CQueue c1;
-    int choice,x;
-     while(true){
-    
-    cout<<"1.Insert\n 2.Delete\n 3.Display\n 4.Exit\n";
-    cout<<"Enter your choice:";
-    cin>>choice;
-   
-    switch(choice){
-        case 1:
-            cout<<"Enter element to insert:";
-            cin>>x;
-            c1.insert(x);
-            break;
-        case 2:
-            c1.del();
-            break;
-        case 3:
-            c1.Disp();
-            break;
-        case 4:
-                cout << "Exiting..." << endl;
-                return 0;
-        default:
-            cout<<"Invalid Input!!";
-            break;
-    }
-    }
-    return 0;
-}
-
